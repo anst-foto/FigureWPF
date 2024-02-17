@@ -10,4 +10,3 @@ namespace FigureWPF;
 public partial class App : Application
 {
 }
-

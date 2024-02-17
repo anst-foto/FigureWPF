@@ -1,12 +1,113 @@
 ﻿<Window x:Class="FigureWPF.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:FigureWPF"
-        mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        Title="MainWindow" 
+        Height="450" Width="800">
+    
+    <Window.Resources>
+        <ResourceDictionary>
+            <Button x:Key="ButtonTest"
+                    Height="150" Width="150"
+                    RenderTransformOrigin="0.5 0.5">
+                <Button.RenderTransform>
+                    <RotateTransform Angle="45"/>
+                </Button.RenderTransform>
+            </Button>
+            
+            <sys:Double x:Key="CircleSizeStart">200</sys:Double>
+            <sys:Double x:Key="CircleSizeEnd">250</sys:Double>
+            
+            <Style TargetType="{x:Type Ellipse}">
+                <Style.Triggers>
+                    <EventTrigger RoutedEvent="MouseEnter">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetProperty="Width"
+                                                 From="{StaticResource ResourceKey=CircleSizeStart}"
+                                                 To="{StaticResource ResourceKey=CircleSizeEnd}"
+                                                 Duration="0:0:2" AutoReverse="True"
+                                                 FillBehavior="Stop"/>
+                                <DoubleAnimation Storyboard.TargetProperty="Height"
+                                                 From="{StaticResource ResourceKey=CircleSizeStart}"
+                                                 To="{StaticResource ResourceKey=CircleSizeEnd}"
+                                                 Duration="0:0:2" AutoReverse="True"
+                                                 RepeatBehavior="2x"
+                                                 FillBehavior="Stop"/>
+                                <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="Fill.Color"
+                                                              Duration="0:0:4" AutoReverse="True"
+                                                              RepeatBehavior="Forever">
+                                    <LinearColorKeyFrame KeyTime="0%" Value="Red"/>
+                                    <LinearColorKeyFrame KeyTime="50%" Value="Blue"/>
+                                    <LinearColorKeyFrame KeyTime="100%" Value="Purple"/>
+                                </ColorAnimationUsingKeyFrames>
+                                
+                                <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="Stroke.Color"
+                                                              Duration="0:0:4" AutoReverse="True"
+                                                              RepeatBehavior="Forever">
+                                    <LinearColorKeyFrame KeyTime="0:0:4" Value="White"/>
+                                    <LinearColorKeyFrame KeyTime="0:0:0" Value="Black"/>
+                                </ColorAnimationUsingKeyFrames>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </Style.Triggers>
+            </Style>
+        </ResourceDictionary>
+    </Window.Resources>
+    
+    <Grid ShowGridLines="True" Background="DarkRed">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
 
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Ellipse Grid.Row="0" Grid.Column="0"
+                 Width="{StaticResource ResourceKey=CircleSizeStart}" 
+                 Height="{StaticResource ResourceKey=CircleSizeStart}"
+                 Fill="LightPink"
+                 StrokeThickness="5" StrokeDashArray="4 2"
+                 Stroke="Gray" StrokeDashCap="Round"
+                 RenderTransformOrigin="0.5 0.5">
+            <Ellipse.RenderTransform>
+                <ScaleTransform ScaleX="0.5" ScaleY="0.5"/>
+            </Ellipse.RenderTransform>
+        </Ellipse>
+
+        <Rectangle Grid.Row="1" Grid.Column="1"
+                   Width="100" Height="100"
+                   Fill="Black" 
+                   RenderTransformOrigin="0.5 0.5">
+            <Rectangle.RenderTransform>
+                <TransformGroup>
+                    <RotateTransform Angle="45"/>
+                    <SkewTransform AngleX="45" />
+                </TransformGroup>
+            </Rectangle.RenderTransform>
+        </Rectangle>
+
+        <Rectangle Grid.Row="1" Grid.Column="0" 
+                   Width="50" Height="100"
+                   Stroke="Yellow"
+                   RenderTransformOrigin="1 0.5">
+            <Rectangle.RenderTransform>
+                <RotateTransform Angle="30" 
+                                 CenterX="100" CenterY="350"/>
+            </Rectangle.RenderTransform>
+        </Rectangle>
+        
+        <Button Grid.Row="0" Grid.Column="1"
+                Height="150" Width="150"
+                RenderTransformOrigin="0.5 0.5"
+                Click="ButtonBase_OnClick">
+            <Button.RenderTransform>
+                <RotateTransform Angle="45"/>
+            </Button.RenderTransform>
+        </Button>
     </Grid>
 </Window>
